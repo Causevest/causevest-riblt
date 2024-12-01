@@ -1,7 +1,9 @@
 package riblt
 
+import "fmt"
+
 // Decoder computes the symmetric difference between two sets A, B. The Decoder
-// knows B (the local set) and expects coded symbols for A (the remote set). 
+// knows B (the local set) and expects coded symbols for A (the remote set).
 type Decoder[T Symbol[T]] struct {
 	// coded symbols received so far
 	cs []CodedSymbol[T]
@@ -102,7 +104,7 @@ func (d *Decoder[T]) applyNewSymbol(t HashedSymbol[T], direction int64) randomMa
 }
 
 // TryDecode tries to decode all coded symbols received so far.
-func (d *Decoder[T]) TryDecode() {
+func (d *Decoder[T]) TryDecode() error {
 	for didx := 0; didx < len(d.decodable); didx += 1 {
 		cidx := d.decodable[didx]
 		c := d.cs[cidx]
@@ -136,10 +138,11 @@ func (d *Decoder[T]) TryDecode() {
 		default:
 			// a decodable symbol does not turn undecodable, so its degree must
 			// be -1, 0, or 1
-			panic("invalid degree for decodable coded symbol")
+			return fmt.Errorf("invalid degree for decodable coded symbol: got %d need -1, 0, 1", c.Count)
 		}
 	}
 	d.decodable = d.decodable[:0]
+	return nil
 }
 
 // Reset clears d. It is more efficient to call Reset to reuse an existing

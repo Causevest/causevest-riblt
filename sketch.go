@@ -1,5 +1,7 @@
 package riblt
 
+import "fmt"
+
 // Sketch is a prefix of the coded symbol sequence for a set of source symbols.
 // When generating a prefix of predetermined length, compared to generating the
 // prefix incrementally using an Encoder, it is more efficient to use Sketch.
@@ -47,9 +49,9 @@ func (s Sketch[T]) RemoveSymbol(t T) {
 // Subtract subtracts s2 from s by modifying s in place. s and s2 must be of
 // equal length. If s is a sketch of set S and s2 is a sketch of set S2, then
 // the result is a sketch of the symmetric difference between S and S2.
-func (s Sketch[T]) Subtract(s2 Sketch[T]) {
+func (s Sketch[T]) Subtract(s2 Sketch[T]) error {
 	if len(s) != len(s2) {
-		panic("subtracting sketches of different sizes")
+		return fmt.Errorf("subtracting sketches of different sizes. s1 has len: %d, s2 has len: %d", len(s), len(s2))
 	}
 
 	for i := range s {
@@ -57,7 +59,7 @@ func (s Sketch[T]) Subtract(s2 Sketch[T]) {
 		s[i].Count = s[i].Count - s2[i].Count
 		s[i].Hash ^= s2[i].Hash
 	}
-	return
+	return nil
 }
 
 // Decode tries to decode s, where s can be one of the following

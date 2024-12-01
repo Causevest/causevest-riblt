@@ -1,4 +1,4 @@
-module github.com/Causevest/causevest-riblt
+module github.com/Causevest/riblt
 
 go 1.21
 

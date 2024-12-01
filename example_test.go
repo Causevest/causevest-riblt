@@ -4,7 +4,8 @@ import (
 	"encoding/binary"
 	"fmt"
 
-	riblt "github.com/Causevest/causevest-riblt"
+	"github.com/Causevest/riblt"
+
 	"github.com/dchest/siphash"
 )
 

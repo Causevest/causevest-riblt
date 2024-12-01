@@ -3,8 +3,9 @@ package riblt_test
 import (
 	"encoding/binary"
 	"fmt"
+
+	riblt "github.com/Causevest/causevest-riblt"
 	"github.com/dchest/siphash"
-	"github.com/yangl1996/riblt"
 )
 
 // item is the type of set elements we will reconcile. It implements
